@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_profile) {
                 // 跳转到个人页面
-                NavigationUtils.navigateWithClearTask(MainActivity.this, ProfileActivity.class);
+                NavigationUtils.navigateTo(MainActivity.this, ProfileActivity.class);
                 return true;
             }
             return false;
@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.main_bottom_nav);
         navigationView.setSelectedItemId(R.id.navigation_home);
     }
-
+    @Override
+    public void onBackPressed() {
+        // 最小化应用而不是关闭
+        moveTaskToBack(true);
+    }
 
 }

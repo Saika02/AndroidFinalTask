@@ -45,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         llFavorites = findViewById(R.id.ll_favorites);
         llHistory = findViewById(R.id.ll_history);
         bottomNavigationView = findViewById(R.id.person_bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
     }
 
     private void loadUserInfo() {
@@ -94,6 +95,5 @@ public class ProfileActivity extends AppCompatActivity {
             })
             .show();
     }
-
 
 } 

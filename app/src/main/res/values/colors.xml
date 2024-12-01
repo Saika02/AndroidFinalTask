@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="background_color">#FFFFFF</color>
+
+    <color name="correct">#2ECC71</color>
+    <color name="incorrect">#FF0000</color>
+    <color name="divider">#EEEEEE</color>
+    <color name="ripple_color">#1F000000</color>
+
+
+    <!-- 主题基础颜色 - 使用温暖的紫色系 -->
+    <color name="primary">#7E57C2</color>           <!-- 主色调：优雅的紫色 -->
+    <color name="primary_dark">#5E35B1</color>      <!-- 深紫色 -->
+    <color name="secondary">#FF9800</color>         <!-- 次要色：温暖的橙色 -->
+    <color name="secondary_dark">#F57C00</color>    <!-- 深橙色 -->
+
+    <!-- 背景颜色 -->
+    <color name="background">#FFFFFF</color>        <!-- 纯白背景 -->
+    <color name="surface">#FFFFFF</color>           <!-- 纯白表面 -->
+    <color name="on_surface">#1F1F1F</color>        <!-- 深灰，用于surface上的内容 -->
+
+    <!-- 文字颜色 -->
+    <color name="text_primary">#1F1F1F</color>      <!-- 主要文字 -->
+    <color name="text_secondary">#757575</color>    <!-- 次要文字 -->
+
+    <!-- 基础颜色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- 功能颜色 -->
+    <color name="error">#EF5350</color>             <!-- 柔和的红色 -->
+    <color name="success">#66BB6A</color>           <!-- 柔和的绿色 -->
+    <color name="link_color">#7E57C2</color>        <!-- 链接颜色 -->
+    <color name="button_color">#7E57C2</color>      <!-- 按钮颜色 -->
+
+    <!-- 渐变色 -->
+    <color name="gradient_start">#7E57C2</color>    <!-- 渐变开始色 -->
+    <color name="gradient_end">#B39DDB</color>      <!-- 渐变结束色 -->
+</resources>

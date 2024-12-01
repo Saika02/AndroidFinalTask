@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.lzz_finaltask">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Lzz_FinalTask">
+
+        <!--        启动页面-->
+        <activity
+            android:name=".ui.activity.BeginActvity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--        注册页面-->
+        <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:exported="false"
+            android:label="@string/title_activity_register"
+            android:theme="@style/Theme.Lzz_FinalTask" />
+        <!--        登录页面-->
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:exported="true">
+        </activity>
+
+        <!--        主界面-->
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true" />
+
+<!--        个人页面-->
+        <activity android:name=".ui.activity.ProfileActivity"
+            android:exported="true"/>
+
+    </application>
+
+</manifest>

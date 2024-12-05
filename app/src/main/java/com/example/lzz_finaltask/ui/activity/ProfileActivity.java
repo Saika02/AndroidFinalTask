@@ -19,12 +19,15 @@ import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.User;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
+import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.example.lzz_finaltask.utils.SharedPreferencesUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.InputStream;
 
@@ -78,6 +81,14 @@ public class ProfileActivity extends AppCompatActivity {
         User user = SharedPreferencesUtil.getUser(ProfileActivity.this);
         tvUsername.setText(user.getUsername());
         tvUserId.setText("ID: " + user.getUserId());
+
+        // 加载用户头像
+        if (user.getAvatarUrl() != null) {
+            Glide.with(this)
+                .load(user.getAvatarUrl())
+                .centerCrop()
+                .into(ivAvatar);
+        }
     }
 
     private void setClickListeners() {
@@ -141,42 +152,43 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void uploadAvatar(Uri imageUri){
-
         try {
             // 使用 Okio 读取文件
             BufferedSource source = Okio.buffer(Okio.source(getContentResolver().openInputStream(imageUri)));
             byte[] bytes = source.readByteArray();
             source.close();
-
-            String fileName = "avatar_"+System.currentTimeMillis()+".jpg";
+            User user = SharedPreferencesUtil.getUser(ProfileActivity.this);
+            String fileName = "avatar_"+user.getUserId()+"_"+System.currentTimeMillis()+".jpg";
             RequestBody fileBody = RequestBody.create(
                     MediaType.parse(getContentResolver().getType(imageUri)),
                     bytes
             );
             MultipartBody.Part filePart = MultipartBody.Part.createFormData("file",fileName,fileBody);
-            User user = SharedPreferencesUtil.getUser(this);
             RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(user.getUserId()));
             Call<BaseResponse> call = RetrofitManager.getApiService().uploadAvatar(filePart, userId);
             call.enqueue(new Callback<BaseResponse>() {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                    
+                    BaseResponse body = response.body();
+                    if(body.getCode() == 0){
+                        String avatarUrl =  (String) body.getData();
+                        user.setAvatarUrl(RetrofitManager.getBaseUrl()+avatarUrl);
+                        SharedPreferencesUtil.updateUser(ProfileActivity.this,user);
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
-
+                    t.printStackTrace();
+                    Toast.makeText(ProfileActivity.this,"上传失败",Toast.LENGTH_SHORT).show();
                 }
             });
         }
         catch (Exception e){
-
+            e.printStackTrace();
         }
 
     }
-
-
-
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -186,6 +198,7 @@ public class ProfileActivity extends AppCompatActivity {
                             .load(selectedImageUri)
                             .centerCrop()
                             .into(ivAvatar);
+                    uploadAvatar(selectedImageUri);
                 }
             }
     );

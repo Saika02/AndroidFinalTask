@@ -50,4 +50,18 @@ public class SharedPreferencesUtil {
         editor.clear();
         editor.apply();
     }
+
+    // 更新用户信息
+    public static void updateUser(Context context, User user) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // 将User对象转换为JSON字符串存储
+        if (user != null) {
+            Gson gson = new Gson();
+            String userJson = gson.toJson(user);
+            editor.putString(KEY_USER, userJson);
+        }
+        editor.apply();
+    }
 }

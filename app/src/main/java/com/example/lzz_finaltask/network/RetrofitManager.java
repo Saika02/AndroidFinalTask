@@ -10,7 +10,7 @@ public class RetrofitManager {
     private static final String BASE_URL = "http://10.0.2.2:8080/android/";  // 你的实际 BASE_URL
     private static final ApiService apiService;
 
-    static{
+    static {
         // 创建 Retrofit 实例
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -22,5 +22,9 @@ public class RetrofitManager {
 
     public static ApiService getApiService() {
         return apiService;
+    }
+
+    public static String getBaseUrl() {
+        return BASE_URL;
     }
 }

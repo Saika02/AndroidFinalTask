@@ -1,22 +1,41 @@
 package com.example.lzz_finaltask.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.User;
+import com.example.lzz_finaltask.network.RetrofitManager;
+import com.example.lzz_finaltask.network.response.BaseResponse;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.example.lzz_finaltask.utils.SharedPreferencesUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
+
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okio.BufferedSource;
+import okio.Okio;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
     private ShapeableImageView ivAvatar;
@@ -26,16 +45,21 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout llFavorites;
     private LinearLayout llHistory;
     private BottomNavigationView bottomNavigationView;
+    private ShapeableImageView avatarImageView;
+    private static final int PICK_IMAGE = 100;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_info);
-        
+
         initViews();
         loadUserInfo();
         setClickListeners();
     }
+
 
     private void initViews() {
         ivAvatar = findViewById(R.id.iv_avatar);
@@ -46,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         llHistory = findViewById(R.id.ll_history);
         bottomNavigationView = findViewById(R.id.person_bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
+        avatarImageView = findViewById(R.id.iv_avatar);
     }
 
     private void loadUserInfo() {
@@ -82,18 +107,87 @@ public class ProfileActivity extends AppCompatActivity {
             return false;
         });
 
+        ivAvatar.setOnClickListener(v ->
+                showSelectPictrueDialog()
+        );
+
     }
 
     private void showLogoutDialog() {
         new MaterialAlertDialogBuilder(this)
-            .setTitle("退出登录")
-            .setMessage("确定要退出登录吗？")
-            .setNegativeButton("取消", null)
-            .setPositiveButton("确定", (dialog, which) -> {
-                SharedPreferencesUtil.clearLoginState(ProfileActivity.this);
-                NavigationUtils.navigateWithClearTask(ProfileActivity.this,LoginActivity.class);
-            })
-            .show();
+                .setTitle("退出登录")
+                .setMessage("确定要退出登录吗？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    SharedPreferencesUtil.clearLoginState(ProfileActivity.this);
+                    NavigationUtils.navigateWithClearTask(ProfileActivity.this, LoginActivity.class);
+                })
+                .show();
     }
+
+    private void showSelectPictrueDialog() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("上传头像")
+                .setMessage("是否需要上传头像")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);  // 使用 MediaStore
+                        pickImage.launch(intent);
+                    }
+                }).show();
+    }
+
+    private void uploadAvatar(Uri imageUri){
+
+        try {
+            // 使用 Okio 读取文件
+            BufferedSource source = Okio.buffer(Okio.source(getContentResolver().openInputStream(imageUri)));
+            byte[] bytes = source.readByteArray();
+            source.close();
+
+            String fileName = "avatar_"+System.currentTimeMillis()+".jpg";
+            RequestBody fileBody = RequestBody.create(
+                    MediaType.parse(getContentResolver().getType(imageUri)),
+                    bytes
+            );
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData("file",fileName,fileBody);
+            User user = SharedPreferencesUtil.getUser(this);
+            RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(user.getUserId()));
+            Call<BaseResponse> call = RetrofitManager.getApiService().uploadAvatar(filePart, userId);
+            call.enqueue(new Callback<BaseResponse>() {
+                @Override
+                public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                    
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+                }
+            });
+        }
+        catch (Exception e){
+
+        }
+
+    }
+
+
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri selectedImageUri = result.getData().getData();
+                    Glide.with(this)
+                            .load(selectedImageUri)
+                            .centerCrop()
+                            .into(ivAvatar);
+                }
+            }
+    );
 
 } 

@@ -34,17 +34,21 @@
         <!--        登录页面-->
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <!--        主界面-->
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true" />
+        <!--        新闻界面-->
+        <activity
+            android:name=".ui.activity.NewsDetailActivity"
+            android:exported="false" />
 
-<!--        个人页面-->
-        <activity android:name=".ui.activity.ProfileActivity"
-            android:exported="true"/>
+        <!--        个人页面-->
+        <activity
+            android:name=".ui.activity.ProfileActivity"
+            android:exported="true" />
 
     </application>
 

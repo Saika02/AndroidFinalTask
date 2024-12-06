@@ -82,13 +82,12 @@ public class ProfileActivity extends AppCompatActivity {
         tvUsername.setText(user.getUsername());
         tvUserId.setText("ID: " + user.getUserId());
 
-        // 加载用户头像
-        if (user.getAvatarUrl() != null) {
-            Glide.with(this)
+        Glide.with(this)
                 .load(user.getAvatarUrl())
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
                 .centerCrop()
                 .into(ivAvatar);
-        }
     }
 
     private void setClickListeners() {

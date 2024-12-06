@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -60,9 +61,13 @@ public class MainActivity extends AppCompatActivity {
         newsAdapter.setOnItemClickListener((news, position) -> {
             // TODO: 处理新闻点击事件，跳转到新闻详情页
             Toast.makeText(this, "点击了：" + news.getTitle(), Toast.LENGTH_SHORT).show();
+
+            NavigationUtils.navigateWith(MainActivity.this, NewsDetailActivity.class, intent -> {
+                intent.putExtra("news_url", news.getDocurl());
+                intent.putExtra("news_title", news.getTitle());
+                intent.putExtra("news_date", news.getPublishTime());
+            });
         });
-
-
     }
 
     private void initViews() {
@@ -74,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
         newsAdapter = new NewsAdapter(this);
         recyclerView.setAdapter(newsAdapter);
     }
-    @Override
-    public void onBackPressed() {
-        // 最小化应用而不是关闭
-        moveTaskToBack(true);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        // 最小化应用而不是关闭
+//        moveTaskToBack(true);
+//    }
 
     private void getNewsList(){
         Call<BaseResponse> call = RetrofitManager.getApiService().getNewsList();

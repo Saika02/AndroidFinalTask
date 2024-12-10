@@ -59,11 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 设置点击事件
         newsAdapter.setOnItemClickListener((news, position) -> {
-            // TODO: 处理新闻点击事件，跳转到新闻详情页
-            Toast.makeText(this, "点击了：" + news.getTitle(), Toast.LENGTH_SHORT).show();
-
             NavigationUtils.navigateWith(MainActivity.this, NewsDetailActivity.class, intent -> {
-                intent.putExtra("news_url", news.getDocurl());
+                intent.putExtra("news_id", news.getNewsId());
                 intent.putExtra("news_title", news.getTitle());
                 intent.putExtra("news_date", news.getPublishTime());
             });

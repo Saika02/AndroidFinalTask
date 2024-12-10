@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvUserId.setText("ID: " + user.getUserId());
 
         Glide.with(this)
-                .load(user.getAvatarUrl())
+                .load(RetrofitManager.getBaseUrl()+user.getAvatarUrl())
                 .placeholder(R.drawable.ic_default_avatar)
                 .error(R.drawable.ic_default_avatar)
                 .centerCrop()
@@ -93,14 +93,12 @@ public class ProfileActivity extends AppCompatActivity {
     private void setClickListeners() {
         // 我的收藏
         llFavorites.setOnClickListener(v -> {
-            // TODO: 跳转到收藏页面
-            Toast.makeText(this, "我的收藏", Toast.LENGTH_SHORT).show();
+            NavigationUtils.navigateTo(ProfileActivity.this,FavoriteActivity.class);
         });
 
         // 浏览历史
         llHistory.setOnClickListener(v -> {
-            // TODO: 跳转到历史记录页面
-            Toast.makeText(this, "浏览历史", Toast.LENGTH_SHORT).show();
+            NavigationUtils.navigateTo(ProfileActivity.this,HistoryActivity.class);
         });
         // 退出登录
         btnLogout.setOnClickListener(v -> showLogoutDialog());
@@ -171,7 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                     BaseResponse body = response.body();
                     if(body.getCode() == 0){
                         String avatarUrl =  (String) body.getData();
-                        user.setAvatarUrl(RetrofitManager.getBaseUrl()+avatarUrl);
+                        user.setAvatarUrl(avatarUrl);
                         SharedPreferencesUtil.updateUser(ProfileActivity.this,user);
                     }
                 }

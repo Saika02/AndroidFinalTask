@@ -13,6 +13,7 @@
     <color name="ripple_color">#1F000000</color>
 
 
+
     <!-- 主题基础颜色 - 使用温暖的紫色系 -->
     <color name="primary">#7E57C2</color>           <!-- 主色调：优雅的紫色 -->
     <color name="primary_dark">#5E35B1</color>      <!-- 深紫色 -->

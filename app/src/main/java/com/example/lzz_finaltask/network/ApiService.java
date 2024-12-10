@@ -8,6 +8,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -22,15 +23,35 @@ public interface ApiService {
     Call<BaseResponse> userRegister(@Body UserRegisterRequest userRegisterRequest);
 
     @Multipart
-    @POST("file/upload/avatar")  // 这里改成你后端的实际接口地址
+    @POST("file/upload/avatar")
     Call<BaseResponse> uploadAvatar(
             @Part MultipartBody.Part file,
             @Part("userId") RequestBody userId
     );
 
+
+    @POST("user/addUserFavorite")
+    Call<BaseResponse> addUserFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+    @POST("user/removeUserFavorite")
+    Call<BaseResponse> removeUserFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+    @POST("user/addHistory")
+    Call<BaseResponse> addHistory(@Query("userId") Long userId, @Query("newsId") Long newsId);
+
+    @DELETE("user/clearHistories")
+    Call<BaseResponse> clearHistories(@Query("userId") Long userId);
+
+
     @GET("news/list")
     Call<BaseResponse> getNewsList();
 
-    @GET("news/detail")
-    Call<BaseResponse> getNewsDetail(@Query("url") String url);
+    @GET("news/checkIsFavorite")
+    Call<BaseResponse> checkIsFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+
+    @GET("news/getFavoriteNews")
+    Call<BaseResponse> getFavoriteNews(@Query("userId") Long userId);
+    @GET("news/getBrowsingHistories")
+    Call<BaseResponse> getBrowsingHistories(@Query("userId") Long userId);
+
+    @GET("news/content")
+    Call<BaseResponse> getNewsContent(@Query("id") Long newsId);
 }

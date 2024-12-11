@@ -29,7 +29,7 @@ public class HistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private NewsAdapter newsAdapter;
     private View emptyView;
-
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,8 @@ public class HistoryActivity extends AppCompatActivity {
         
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
         findViewById(R.id.btn_clear).setOnClickListener(v -> showClearDialog());
+
+        user = SharedPreferencesUtil.getUser(this);
     }
 
     private void setupRecyclerView() {
@@ -63,14 +65,9 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadHistories() {
-        User user = SharedPreferencesUtil.getUser(this);
-        if (user == null) {
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
 
-        Call<BaseResponse> call = RetrofitManager.getApiService().getBrowsingHistories(user.getUserId());
+        Long userId = user.getUserId();
+        Call<BaseResponse> call = RetrofitManager.getApiService().getBrowsingHistories(userId);
         call.enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
@@ -118,13 +115,30 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void clearHistories() {
-        // TODO: 实现清空历史记录的API调用
+        Long userId = user.getUserId();
+        Call<BaseResponse> call = RetrofitManager.getApiService().clearHistories(userId);
+        call.enqueue(new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                BaseResponse body = response.body();
+                if (body != null && body.getCode() == 0) {
+                    Toast.makeText(HistoryActivity.this, "清除成功", Toast.LENGTH_SHORT).show();
+                    loadHistories(); // 重新加载数据
+                }
+                else{
+                    Toast.makeText(HistoryActivity.this, "清除失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                Toast.makeText(HistoryActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // 每次回到页面时重新加载数据
         loadHistories();
     }
 }

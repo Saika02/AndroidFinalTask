@@ -41,6 +41,8 @@ public interface ApiService {
     Call<BaseResponse> clearHistories(@Query("userId") Long userId);
 
 
+
+
     @GET("news/list")
     Call<BaseResponse> getNewsList();
 

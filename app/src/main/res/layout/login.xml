@@ -37,6 +37,8 @@
         </LinearLayout>
 
         <!-- 输入区域 -->
+
+        <!-- 其他登录方式 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -45,36 +47,36 @@
 
             <!-- 用户名输入框 -->
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:startIconDrawable="@drawable/baseline_person_24"
-                app:startIconTint="@color/button_color"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:startIconTint="@color/button_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ed_userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="用户名"/>
+                    android:hint="用户名" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- 密码输入框 -->
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:startIconDrawable="@drawable/baseline_lock_24"
-                app:startIconTint="@color/button_color"
                 app:endIconMode="password_toggle"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:startIconDrawable="@drawable/baseline_lock_24"
+                app:startIconTint="@color/button_color">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ed_userPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="密码"
-                    android:inputType="textPassword"/>
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- 错误信息 -->
@@ -85,7 +87,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="#FF0000"
                 android:textSize="12sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <!-- 忘记密码 -->
             <TextView
@@ -94,7 +96,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="end"
                 android:text="忘记密码？"
-                android:textColor="@color/link_color"/>
+                android:textColor="@color/link_color" />
 
             <!-- 登录按钮 -->
             <com.google.android.material.button.MaterialButton
@@ -105,21 +107,20 @@
                 android:padding="12dp"
                 android:text="登 录"
                 android:textSize="16sp"
-                app:cornerRadius="24dp"/>
+                app:cornerRadius="24dp" />
 
             <!-- 注册链接 -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/tv_to_register"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:text="还没有账号？立即注册"
-                android:textColor="@color/button_color"
-                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                android:textColor="@color/button_color" />
         </LinearLayout>
 
-        <!-- 其他登录方式 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"

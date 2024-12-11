@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -42,22 +41,28 @@
                         android:id="@+id/search_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
                         android:background="@null"
                         android:hint="搜索新闻"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"/>
+                        android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </com.google.android.material.appbar.AppBarLayout>
-
-        <!-- 新闻列表 -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/news_recycler_view"
+        <!-- 用SwipeRefreshLayout包裹RecyclerView -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="8dp"
-            android:clipToPadding="false"/>
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <!-- 新闻列表 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/news_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:padding="8dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <!-- 底部导航栏 -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -66,17 +71,17 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:elevation="8dp"
-            app:menu="@menu/bottom_nav_menu"/>
+            app:menu="@menu/bottom_nav_menu" />
     </LinearLayout>
 
-<!--    &lt;!&ndash; 悬浮按钮 (可选) &ndash;&gt;-->
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="16dp"-->
-<!--        android:layout_marginBottom="76dp"-->
-<!--        app:srcCompat="@drawable/baseline_add_24"/>-->
+    <!--    &lt;!&ndash; 悬浮按钮 (可选) &ndash;&gt;-->
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fab"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="bottom|end"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:layout_marginBottom="76dp"-->
+    <!--        app:srcCompat="@drawable/baseline_add_24"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

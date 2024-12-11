@@ -112,6 +112,10 @@ public class ProfileActivity extends AppCompatActivity {
                 NavigationUtils.navigateWithClearTask(ProfileActivity.this, MainActivity.class);
                 return true;
             }
+            else if(itemId == R.id.navigation_explore){
+                NavigationUtils.navigateWithClearTask(ProfileActivity.this,DiscoveryActivity.class);
+                return true;
+            }
             return false;
         });
 

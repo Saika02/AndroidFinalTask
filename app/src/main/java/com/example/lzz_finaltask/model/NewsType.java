@@ -6,5 +6,11 @@ import lombok.Data;
 public class NewsType {
     private String type;
     private String typeDesc;
-    private int iconResId; // 改用本地资源ID
+    private int iconResId;
+
+    public NewsType(String type, String typeDesc, int iconResId) {
+        this.type = type;
+        this.typeDesc = typeDesc;
+        this.iconResId = iconResId;
+    }
 }

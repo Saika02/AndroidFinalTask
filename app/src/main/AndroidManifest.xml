@@ -63,6 +63,10 @@
         <activity
             android:name=".ui.activity.HistoryActivity"
             android:exported="true" />
+        <!--        分类新闻页面-->
+        <activity
+            android:name=".ui.activity.TypeNewsActivity"
+            android:exported="true" />
 
     </application>
 

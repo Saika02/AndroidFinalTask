@@ -30,11 +30,12 @@ public class HistoryActivity extends AppCompatActivity {
     private NewsAdapter newsAdapter;
     private View emptyView;
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
-        
+
         initViews();
         setupRecyclerView();
         loadHistories();
@@ -43,9 +44,11 @@ public class HistoryActivity extends AppCompatActivity {
     private void initViews() {
         recyclerView = findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_view);
-        
+
         findViewById(R.id.btn_back).setOnClickListener(v -> finish());
         findViewById(R.id.btn_clear).setOnClickListener(v -> showClearDialog());
+        findViewById(R.id.btn_go_index_h).setOnClickListener(
+                v -> NavigationUtils.navigateWithClearTask(HistoryActivity.this, MainActivity.class));
 
         user = SharedPreferencesUtil.getUser(this);
     }
@@ -54,7 +57,7 @@ public class HistoryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         newsAdapter = new NewsAdapter(this);
         recyclerView.setAdapter(newsAdapter);
-        
+
         newsAdapter.setOnItemClickListener((news, position) -> {
             NavigationUtils.navigateWith(this, NewsDetailActivity.class, intent -> {
                 intent.putExtra("news_id", news.getNewsId());
@@ -75,7 +78,7 @@ public class HistoryActivity extends AppCompatActivity {
                 if (body != null && body.getCode() == 0) {
                     List<News> newsList = GsonUtil.parseList(body.getData(), News.class);
                     newsAdapter.setNewsList(newsList);
-                    
+
                     if (newsList.isEmpty()) {
                         showEmptyState();
                     } else {
@@ -83,14 +86,14 @@ public class HistoryActivity extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(HistoryActivity.this,
-                        "获取浏览历史失败", Toast.LENGTH_SHORT).show();
+                            "获取浏览历史失败", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
-                Toast.makeText(HistoryActivity.this, 
-                    "网络请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryActivity.this,
+                        "网络请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -107,11 +110,11 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void showClearDialog() {
         new AlertDialog.Builder(this)
-            .setTitle("清空浏览历史")
-            .setMessage("确定要清空所有浏览历史吗？")
-            .setPositiveButton("确定", (dialog, which) -> clearHistories())
-            .setNegativeButton("取消", null)
-            .show();
+                .setTitle("清空浏览历史")
+                .setMessage("确定要清空所有浏览历史吗？")
+                .setPositiveButton("确定", (dialog, which) -> clearHistories())
+                .setNegativeButton("取消", null)
+                .show();
     }
 
     private void clearHistories() {
@@ -124,11 +127,11 @@ public class HistoryActivity extends AppCompatActivity {
                 if (body != null && body.getCode() == 0) {
                     Toast.makeText(HistoryActivity.this, "清除成功", Toast.LENGTH_SHORT).show();
                     loadHistories(); // 重新加载数据
-                }
-                else{
+                } else {
                     Toast.makeText(HistoryActivity.this, "清除失败", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
                 Toast.makeText(HistoryActivity.this, "网络请求失败", Toast.LENGTH_SHORT).show();

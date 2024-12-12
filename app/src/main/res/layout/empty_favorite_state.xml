@@ -29,7 +29,7 @@
         android:textColor="@color/text_secondary"/>
 
     <Button
-        android:id="@+id/btn_go_index"
+        android:id="@+id/btn_go_index_f"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

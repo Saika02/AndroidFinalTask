@@ -48,23 +48,16 @@ public class NewsTypeAdapter extends RecyclerView.Adapter<NewsTypeAdapter.NewsTy
     private void initDefaultNewsTypes() {
         newsTypes = new ArrayList<>();
         // 初始化固定的新闻类型
-        newsTypes.add(createNewsType(TYPE_YAOWEN, DESC_YAOWEN, R.drawable.ic_yaowen));
-        newsTypes.add(createNewsType(TYPE_GUONEI, DESC_GUONEI, R.drawable.ic_guonei));
-        newsTypes.add(createNewsType(TYPE_GUOJI, DESC_GUOJI, R.drawable.ic_guoji));
-        newsTypes.add(createNewsType(TYPE_WAR, DESC_WAR, R.drawable.ic_war));
-        newsTypes.add(createNewsType(TYPE_TECH, DESC_TECH, R.drawable.ic_tech));
-        newsTypes.add(createNewsType(TYPE_MONEY, DESC_MONEY, R.drawable.ic_money));
-        newsTypes.add(createNewsType(TYPE_SPORTS, DESC_SPORTS, R.drawable.ic_sports));
-        newsTypes.add(createNewsType(TYPE_ENT, DESC_ENT, R.drawable.ic_ent));
+        newsTypes.add(new NewsType(TYPE_YAOWEN, DESC_YAOWEN, R.drawable.ic_yaowen));
+        newsTypes.add(new NewsType(TYPE_GUONEI, DESC_GUONEI, R.drawable.ic_guonei));
+        newsTypes.add(new NewsType(TYPE_GUOJI, DESC_GUOJI, R.drawable.ic_guoji));
+        newsTypes.add(new NewsType(TYPE_WAR, DESC_WAR, R.drawable.ic_war));
+        newsTypes.add(new NewsType(TYPE_TECH, DESC_TECH, R.drawable.ic_tech));
+        newsTypes.add(new NewsType(TYPE_MONEY, DESC_MONEY, R.drawable.ic_money));
+        newsTypes.add(new NewsType(TYPE_SPORTS, DESC_SPORTS, R.drawable.ic_sports));
+        newsTypes.add(new NewsType(TYPE_ENT, DESC_ENT, R.drawable.ic_ent));
     }
 
-    private NewsType createNewsType(String type, String desc, int iconResId) {
-        NewsType newsType = new NewsType();
-        newsType.setType(type);
-        newsType.setTypeDesc(desc);
-        newsType.setIconResId(iconResId); // 修改NewsType类，使用本地资源ID而不是URL
-        return newsType;
-    }
 
     @NonNull
     @Override

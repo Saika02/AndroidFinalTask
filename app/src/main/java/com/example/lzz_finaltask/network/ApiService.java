@@ -46,6 +46,9 @@ public interface ApiService {
     @GET("news/list")
     Call<BaseResponse> getNewsList();
 
+    @GET("news/getNewsByType")
+    Call<BaseResponse>getNewsByType(@Query("newsType") String newsType);
+
     @GET("news/checkIsFavorite")
     Call<BaseResponse> checkIsFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
 

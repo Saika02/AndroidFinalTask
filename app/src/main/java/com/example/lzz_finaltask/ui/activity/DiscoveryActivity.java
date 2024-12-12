@@ -1,24 +1,14 @@
 package com.example.lzz_finaltask.ui.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.lzz_finaltask.R;
-import com.example.lzz_finaltask.model.NewsType;
 import com.example.lzz_finaltask.ui.adapter.NewsTypeAdapter;
-import com.example.lzz_finaltask.network.RetrofitManager;
-import com.example.lzz_finaltask.network.response.BaseResponse;
-import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DiscoveryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -30,7 +20,6 @@ public class DiscoveryActivity extends AppCompatActivity {
         setContentView(R.layout.discovery);
         initViews();
         setupRecyclerView();
-        loadNewsTypes();
     }
 
     private void initViews() {
@@ -60,9 +49,13 @@ public class DiscoveryActivity extends AppCompatActivity {
         newsTypeAdapter = new NewsTypeAdapter(this);
         recyclerView.setAdapter(newsTypeAdapter);
 
+        newsTypeAdapter.setOnItemClickListener((newsType, position) -> {
+            NavigationUtils.navigateWith(DiscoveryActivity.this, TypeNewsActivity.class, intent -> {
+                intent.putExtra("news_type",newsType.getType());
+                intent.putExtra("type_desc",newsType.getTypeDesc());
+            });
+        });
     }
 
-    private void loadNewsTypes() {
 
-    }
 }

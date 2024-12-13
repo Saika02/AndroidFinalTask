@@ -7,6 +7,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.lzz_finaltask.R;
@@ -34,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private List<News> newsList;
     private NewsAdapter newsAdapter;
     private SwipeRefreshLayout swipeRefresh;
+    private ImageView searchImg;
+    private EditText searchLine;
 
 
     @Override
@@ -73,6 +79,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
         swipeRefresh.setOnRefreshListener(this::getNewsList);
+
+        searchImg.setOnClickListener(v -> {
+            String keyword = searchLine.getText().toString().trim();
+            if (!TextUtils.isEmpty(keyword)) {
+                NavigationUtils.navigateWith(MainActivity.this, SearchActivity.class,
+                        intent -> intent.putExtra("keyword", keyword));
+            }
+            else Toast.makeText(MainActivity.this,"搜索框不能为空",Toast.LENGTH_SHORT).show();
+        });
+
+        searchLine.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String keyword = searchLine.getText().toString().trim();
+                if (!TextUtils.isEmpty(keyword)) {
+                    NavigationUtils.navigateWith(MainActivity.this, SearchActivity.class,
+                            intent -> intent.putExtra("keyword", keyword));
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"搜索框不能为空",Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+            return false;
+        });
+
     }
 
     private void initViews() {
@@ -84,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         newsAdapter = new NewsAdapter(this);
         recyclerView.setAdapter(newsAdapter);
-
-
+        searchImg = findViewById(R.id.main_img_search);
+        searchLine = findViewById(R.id.search_edit_text);
         // 初始化SwipeRefreshLayout
         swipeRefresh = findViewById(R.id.swipe_refresh);
         // 设置刷新时的颜色变化
@@ -93,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
                 R.color.primary,
                 R.color.secondary
         );
+
+
     }
 
 

@@ -67,6 +67,10 @@
         <activity
             android:name=".ui.activity.TypeNewsActivity"
             android:exported="true" />
+        <!--        搜索页面-->
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:exported="true" />
 
     </application>
 

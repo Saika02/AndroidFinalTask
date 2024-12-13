@@ -32,6 +32,7 @@
                     android:paddingHorizontal="16dp">
 
                     <ImageView
+                        android:id="@+id/main_img_search"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/baseline_search_24"
@@ -43,7 +44,11 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
                         android:background="@null"
+                        android:focusable="true"
                         android:hint="搜索新闻"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:singleLine="true"
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

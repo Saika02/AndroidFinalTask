@@ -59,4 +59,7 @@ public interface ApiService {
 
     @GET("news/content")
     Call<BaseResponse> getNewsContent(@Query("id") Long newsId);
+
+    @GET("news/search")
+    Call<BaseResponse> searchNews(@Query("keyword") String keyword);
 }

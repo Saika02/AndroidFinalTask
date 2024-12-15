@@ -1,5 +1,6 @@
 package com.example.lzz_finaltask.network;
 
+import com.example.lzz_finaltask.model.Comment;
 import com.example.lzz_finaltask.network.request.UserLoginRequest;
 import com.example.lzz_finaltask.network.request.UserRegisterRequest;
 import com.example.lzz_finaltask.network.response.BaseResponse;
@@ -31,29 +32,36 @@ public interface ApiService {
 
 
     @POST("user/addUserFavorite")
-    Call<BaseResponse> addUserFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+    Call<BaseResponse> addUserFavorite(@Query("userId") Long userId, @Query("newsId") Long newsId);
+
     @POST("user/removeUserFavorite")
-    Call<BaseResponse> removeUserFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+    Call<BaseResponse> removeUserFavorite(@Query("userId") Long userId, @Query("newsId") Long newsId);
+
     @POST("user/addHistory")
     Call<BaseResponse> addHistory(@Query("userId") Long userId, @Query("newsId") Long newsId);
 
+//    @POST("news/sendComment")
+//    Call<BaseResponse> sendComment(@Query("userId") Long userId, @Query("newsId") Long newsId, @Query("comment") String comment);
+
+    @POST("news/sendComment")
+    Call<BaseResponse> sendComment(@Body Comment comment);
+
     @DELETE("user/clearHistories")
     Call<BaseResponse> clearHistories(@Query("userId") Long userId);
-
-
 
 
     @GET("news/list")
     Call<BaseResponse> getNewsList();
 
     @GET("news/getNewsByType")
-    Call<BaseResponse>getNewsByType(@Query("newsType") String newsType);
+    Call<BaseResponse> getNewsByType(@Query("newsType") String newsType);
 
     @GET("news/checkIsFavorite")
-    Call<BaseResponse> checkIsFavorite(@Query("userId") Long userId,@Query("newsId") Long newsId);
+    Call<BaseResponse> checkIsFavorite(@Query("userId") Long userId, @Query("newsId") Long newsId);
 
     @GET("news/getFavoriteNews")
     Call<BaseResponse> getFavoriteNews(@Query("userId") Long userId);
+
     @GET("news/getBrowsingHistories")
     Call<BaseResponse> getBrowsingHistories(@Query("userId") Long userId);
 
@@ -62,4 +70,9 @@ public interface ApiService {
 
     @GET("news/search")
     Call<BaseResponse> searchNews(@Query("keyword") String keyword);
+
+    @GET("news/getNewsComment")
+    Call<BaseResponse> getNewsComment(@Query("newsId") Long newsId);
+
+
 }

@@ -117,6 +117,8 @@
                     android:layout_weight="1"
                     android:hint="写下你的评论..."
                     android:padding="8dp"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
                     android:background="@android:color/white"/>
 
                 <Button

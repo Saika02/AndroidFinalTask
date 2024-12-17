@@ -77,6 +77,11 @@
             android:name=".ui.activity.BanListActivity"
             android:exported="true" />
 
+        <!--        新增新闻-->
+        <activity
+            android:name=".ui.activity.AddNewsActivity"
+            android:exported="true" />
+
 
     </application>
 

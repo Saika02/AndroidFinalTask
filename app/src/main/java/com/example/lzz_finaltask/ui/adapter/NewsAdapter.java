@@ -50,8 +50,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         // 使用Glide加载图片
         Glide.with(context)
                 .load(news.getImageUrl())
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.modern_news_cover)
+                .error(R.drawable.modern_news_cover)
                 .into(holder.ivNews);
 
         // 设置点击事件

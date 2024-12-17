@@ -127,6 +127,11 @@
                 android:src="@drawable/baseline_chevron_right_24"
                 app:tint="@color/text_secondary"/>
         </LinearLayout>
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
         <!-- 封禁列表（管理员专用） -->
         <LinearLayout
             android:id="@+id/ll_ban_list"
@@ -152,6 +157,41 @@
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
                 android:text="封禁列表"
+                android:textSize="16sp"
+                android:textColor="@color/text_primary"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_chevron_right_24"
+                app:tint="@color/text_secondary"/>
+        </LinearLayout>
+
+        <!-- 添加新闻 -->
+        <LinearLayout
+            android:id="@+id/ll_add_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/ripple_bg"
+            android:clickable="true"
+            android:visibility="gone"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_add_circle_24"
+                app:tint="@color/primary"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:text="添加新闻"
                 android:textSize="16sp"
                 android:textColor="@color/text_primary"/>
 

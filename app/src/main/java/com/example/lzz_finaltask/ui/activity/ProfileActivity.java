@@ -50,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout llHistory;
     private BottomNavigationView bottomNavigationView;
     private LinearLayout llBanList;
+    private LinearLayout llAddNews;
 
 
 
@@ -74,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.person_bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
         llBanList = findViewById(R.id.ll_ban_list);
+        llAddNews = findViewById(R.id.ll_add_news);
     }
 
     private void loadUserInfo() {
@@ -83,8 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
         tvUserId.setText("ID: " + user.getUserId());
         if (user.getRole() != null && user.getRole() == 1) {
             llBanList.setVisibility(View.VISIBLE);
+            llAddNews.setVisibility(View.VISIBLE);
         } else {
             llBanList.setVisibility(View.GONE);
+            llAddNews.setVisibility(View.GONE);
         }
 
         Glide.with(this)
@@ -109,6 +113,10 @@ public class ProfileActivity extends AppCompatActivity {
         llBanList.setOnClickListener(v -> {
 //            Toast.makeText(ProfileActivity.this,"封禁页面",Toast.LENGTH_SHORT).show();
             NavigationUtils.navigateTo(ProfileActivity.this,BanListActivity.class);
+        });
+
+        llAddNews.setOnClickListener(v -> {
+            NavigationUtils.navigateTo(ProfileActivity.this,AddNewsActivity.class);
         });
 
         // 退出登录

@@ -1,6 +1,8 @@
 package com.example.lzz_finaltask.network;
 
 import com.example.lzz_finaltask.model.Comment;
+import com.example.lzz_finaltask.model.News;
+import com.example.lzz_finaltask.network.request.AddNewsRequest;
 import com.example.lzz_finaltask.network.request.UserLoginRequest;
 import com.example.lzz_finaltask.network.request.UserRegisterRequest;
 import com.example.lzz_finaltask.network.response.BaseResponse;
@@ -79,6 +81,7 @@ public interface ApiService {
 
     @GET("admin/banUser")
     Call<BaseResponse> banUser(@Query("userId") Long userId, @Query("adminId") Long adminId, @Query("reason") String reason);
+
     @GET("admin/getBannedUsers")
     Call<BaseResponse> getBannedUsers(@Query("adminId") Long adminId);
 
@@ -86,5 +89,6 @@ public interface ApiService {
     Call<BaseResponse> unbanUser(@Query("userId") Long userId);
 
 
-
+    @POST("admin/addNews")
+    Call<BaseResponse> addNews(@Body AddNewsRequest addNewsRequest);
 }

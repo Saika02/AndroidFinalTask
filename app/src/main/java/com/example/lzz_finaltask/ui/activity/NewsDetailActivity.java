@@ -58,6 +58,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     private EditText commentLine;
     private View emptyView;
 
+
     //TODO 评论区实现
 
     @Override
@@ -350,7 +351,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                     List<Comment> comments = GsonUtil.parseList(response.body().getData(), Comment.class);
                     checkCommentListStatus(comments);
                     // 更新UI
-                    updateCommentList(comments);
+                    checkCommentListStatus(comments);
 
                 } else {
                     // 处理错误
@@ -381,17 +382,6 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     }
 
-    private void updateCommentList(List<Comment> comments) {
-
-        if (comments != null && !comments.isEmpty()) {
-            emptyView.setVisibility(View.GONE);
-            commentList.setVisibility(View.VISIBLE);
-            commentAdapter.setComments(comments);
-        } else {
-            emptyView.setVisibility(View.VISIBLE);
-            commentList.setVisibility(View.GONE);
-        }
-    }
 }
 
 

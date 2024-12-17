@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -55,12 +56,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.userName.setText(comment.getUsername());
+        if(currentUser.getRole() == 1){
+            holder.userName.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.primary));
+        }
         holder.commentTime.setText(comment.getCreateTime());
         holder.commentContent.setText(comment.getContent());
 
         // 加载头像
         Glide.with(holder.userAvatar)
                 .load(RetrofitManager.getBaseUrl() + comment.getAvatarUrl())
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
                 .into(holder.userAvatar);
 
         // 设置长按事件

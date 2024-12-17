@@ -74,5 +74,17 @@ public interface ApiService {
     @GET("news/getNewsComment")
     Call<BaseResponse> getNewsComment(@Query("newsId") Long newsId);
 
+    @DELETE("news/delComment")
+    Call<BaseResponse> deleteComment(@Query("commentId") Long commentId);
+
+    @GET("admin/banUser")
+    Call<BaseResponse> banUser(@Query("userId") Long userId, @Query("adminId") Long adminId, @Query("reason") String reason);
+    @GET("admin/getBannedUsers")
+    Call<BaseResponse> getBannedUsers(@Query("adminId") Long adminId);
+
+    @GET("admin/unbanUser")
+    Call<BaseResponse> unbanUser(@Query("userId") Long userId);
+
+
 
 }

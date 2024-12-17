@@ -72,6 +72,12 @@
             android:name=".ui.activity.SearchActivity"
             android:exported="true" />
 
+        <!--        封禁页面(管理员)-->
+        <activity
+            android:name=".ui.activity.BanListActivity"
+            android:exported="true" />
+
+
     </application>
 
 </manifest>

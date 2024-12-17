@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lzz_finaltask.R;
+import com.example.lzz_finaltask.constants.ErrorCode;
 import com.example.lzz_finaltask.model.Comment;
 import com.example.lzz_finaltask.model.User;
 import com.example.lzz_finaltask.network.ApiService;
@@ -30,10 +31,8 @@ import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
 import com.example.lzz_finaltask.ui.adapter.CommentAdapter;
 import com.example.lzz_finaltask.utils.GsonUtil;
-import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.example.lzz_finaltask.utils.SharedPreferencesUtil;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -93,7 +92,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         Long newsId = getIntent().getLongExtra("news_id", 0);
         // 设置RecyclerView
         commentList.setLayoutManager(new LinearLayoutManager(this));
-        commentAdapter = new CommentAdapter();
+        commentAdapter = new CommentAdapter(user);
         commentList.setAdapter(commentAdapter);
 
         // 加载评论
@@ -136,7 +135,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 String currentTime = dateFormat.format(new Date());
                 Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), commentContent, currentTime);
-                sendCommentInfo(temp);
+                sendComment(temp);
 
             } else {
                 handleError("评论内容不能为空");
@@ -152,7 +151,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     String currentTime = dateFormat.format(new Date());
                     Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), content, currentTime);
-                    sendCommentInfo(temp);
+                    sendComment(temp);
                     initCommentSection();
                 } else {
                     handleError("评论内容不能为空");
@@ -305,7 +304,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void sendCommentInfo(Comment comment) {
+    private void sendComment(Comment comment) {
         Call<BaseResponse> call = RetrofitManager.getApiService().sendComment(comment);
         call.enqueue(new Callback<BaseResponse>() {
             @Override
@@ -321,8 +320,11 @@ public class NewsDetailActivity extends AppCompatActivity {
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(commentLine.getWindowToken(), 0);
 
-                    loadComments(getIntent().getLongExtra("news_id",0));
+                    loadComments(getIntent().getLongExtra("news_id", 0));
 
+                } else if (response.body().getCode() == ErrorCode.USER_BANNED.getCode()) {
+                    Toast.makeText(NewsDetailActivity.this,
+                            "您已被封禁，无法发表评论", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(NewsDetailActivity.this,
                             "评论失败：" + response.body().getMessage(),

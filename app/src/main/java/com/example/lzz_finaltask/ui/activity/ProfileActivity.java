@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout llFavorites;
     private LinearLayout llHistory;
     private BottomNavigationView bottomNavigationView;
-    private ShapeableImageView avatarImageView;
-    private static final int PICK_IMAGE = 100;
+    private LinearLayout llBanList;
 
 
 
@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
         llHistory = findViewById(R.id.ll_history);
         bottomNavigationView = findViewById(R.id.person_bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.navigation_profile);
-        avatarImageView = findViewById(R.id.iv_avatar);
+        llBanList = findViewById(R.id.ll_ban_list);
     }
 
     private void loadUserInfo() {
@@ -81,6 +81,11 @@ public class ProfileActivity extends AppCompatActivity {
         User user = SharedPreferencesUtil.getUser(ProfileActivity.this);
         tvUsername.setText(user.getUsername());
         tvUserId.setText("ID: " + user.getUserId());
+        if (user.getRole() != null && user.getRole() == 1) {
+            llBanList.setVisibility(View.VISIBLE);
+        } else {
+            llBanList.setVisibility(View.GONE);
+        }
 
         Glide.with(this)
                 .load(RetrofitManager.getBaseUrl()+user.getAvatarUrl())
@@ -100,6 +105,12 @@ public class ProfileActivity extends AppCompatActivity {
         llHistory.setOnClickListener(v -> {
             NavigationUtils.navigateTo(ProfileActivity.this,HistoryActivity.class);
         });
+
+        llBanList.setOnClickListener(v -> {
+//            Toast.makeText(ProfileActivity.this,"封禁页面",Toast.LENGTH_SHORT).show();
+            NavigationUtils.navigateTo(ProfileActivity.this,BanListActivity.class);
+        });
+
         // 退出登录
         btnLogout.setOnClickListener(v -> showLogoutDialog());
 

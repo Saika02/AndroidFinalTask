@@ -1,7 +1,6 @@
 package com.example.lzz_finaltask.network;
 
 import com.example.lzz_finaltask.model.Comment;
-import com.example.lzz_finaltask.model.News;
 import com.example.lzz_finaltask.network.request.AddNewsRequest;
 import com.example.lzz_finaltask.network.request.UserLoginRequest;
 import com.example.lzz_finaltask.network.request.UserRegisterRequest;
@@ -52,6 +51,10 @@ public interface ApiService {
     Call<BaseResponse> clearHistories(@Query("userId") Long userId);
 
 
+    @DELETE("user/removeOneHistory")
+    Call<BaseResponse> removeOneHistory(@Query("userId") Long userId, @Query("newsId") Long newsId);
+
+
     @GET("news/list")
     Call<BaseResponse> getNewsList();
 
@@ -91,4 +94,8 @@ public interface ApiService {
 
     @POST("admin/addNews")
     Call<BaseResponse> addNews(@Body AddNewsRequest addNewsRequest);
+
+    @DELETE("admin/deleteNews")
+    Call<BaseResponse> deleteNews(@Query("newsId") Long newsId);
+
 }

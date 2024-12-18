@@ -13,7 +13,7 @@ import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.News;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
-import com.example.lzz_finaltask.ui.adapter.NewsAdapter;
+import com.example.lzz_finaltask.ui.adapter.NewsListAdapter;
 import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 
@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class TypeNewsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private NewsAdapter newsAdapter;
+    private NewsListAdapter newsListAdapter;
     private SwipeRefreshLayout swipeRefresh;
     private String newsType;
     private String typeDesc;
@@ -54,11 +54,11 @@ public class TypeNewsActivity extends AppCompatActivity {
         // 初始化RecyclerView
         recyclerView = findViewById(R.id.news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        newsAdapter = new NewsAdapter(this);
-        recyclerView.setAdapter(newsAdapter);
+        newsListAdapter = new NewsListAdapter(this);
+        recyclerView.setAdapter(newsListAdapter);
 
         // 设置新闻点击事件
-        newsAdapter.setOnItemClickListener((news, position) -> {
+        newsListAdapter.setOnItemClickListener((news, position) -> {
             NavigationUtils.navigateWith(this, NewsDetailActivity.class, intent -> {
                 intent.putExtra("news_id", news.getNewsId());
                 intent.putExtra("news_title", news.getTitle());
@@ -93,7 +93,7 @@ public class TypeNewsActivity extends AppCompatActivity {
                 BaseResponse body = response.body();
                 if (body != null && body.getCode() == 0) {
                     List<News> newsList = GsonUtil.parseList(body.getData(), News.class);
-                    newsAdapter.setNewsList(newsList);
+                    newsListAdapter.setNewsList(newsList);
                 } else {
                     Toast.makeText(TypeNewsActivity.this,
                         "获取新闻列表失败", Toast.LENGTH_SHORT).show();

@@ -59,7 +59,6 @@ public class NewsDetailActivity extends AppCompatActivity {
     private View emptyView;
 
 
-    //TODO 评论区实现
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

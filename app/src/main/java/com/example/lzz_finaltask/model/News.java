@@ -21,4 +21,6 @@ public class News {
     private String typeDesc;
 
     private Date createTime;
+
+    private Integer isDeleted;
 }

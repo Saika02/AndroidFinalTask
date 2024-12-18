@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
@@ -17,14 +16,11 @@ import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.News;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
-import com.example.lzz_finaltask.ui.adapter.NewsAdapter;
+import com.example.lzz_finaltask.ui.adapter.NewsListAdapter;
 import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 
-import java.util.Base64;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private RecyclerView recyclerView;
     private List<News> newsList;
-    private NewsAdapter newsAdapter;
+    private NewsListAdapter newsListAdapter;
     private SwipeRefreshLayout swipeRefresh;
     private ImageView searchImg;
     private EditText searchLine;
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // 设置点击事件
-        newsAdapter.setOnItemClickListener((news, position) -> {
+        newsListAdapter.setOnItemClickListener((news, position) -> {
             NavigationUtils.navigateWith(MainActivity.this, NewsDetailActivity.class, intent -> {
                 intent.putExtra("news_id", news.getNewsId());
                 intent.putExtra("news_title", news.getTitle());
@@ -113,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        newsAdapter = new NewsAdapter(this);
-        recyclerView.setAdapter(newsAdapter);
+        newsListAdapter = new NewsListAdapter(this);
+        newsListAdapter.setPageType(NewsListAdapter.PAGE_TYPE_MAIN);
+        recyclerView.setAdapter(newsListAdapter);
         searchImg = findViewById(R.id.main_img_search);
         searchLine = findViewById(R.id.search_edit_text);
         // 初始化SwipeRefreshLayout
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 BaseResponse body = response.body();
                 if (body.getCode() == 0 && body.getData() != null) {
                     newsList = GsonUtil.parseList(body.getData(), News.class);
-                    newsAdapter.setNewsList(newsList);
+                    newsListAdapter.setNewsList(newsList);
                 }
             }
 

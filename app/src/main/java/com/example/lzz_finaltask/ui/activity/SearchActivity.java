@@ -15,7 +15,7 @@ import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.News;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
-import com.example.lzz_finaltask.ui.adapter.NewsAdapter;
+import com.example.lzz_finaltask.ui.adapter.NewsListAdapter;
 import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 
@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private NewsAdapter newsAdapter;
+    private NewsListAdapter newsListAdapter;
     private SwipeRefreshLayout swipeRefresh;
     private EditText etSearch;
     private String currentKeyword = "";
@@ -69,10 +69,10 @@ public class SearchActivity extends AppCompatActivity {
         // 初始化RecyclerView
         recyclerView = findViewById(R.id.news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        newsAdapter = new NewsAdapter(this);
-        recyclerView.setAdapter(newsAdapter);
+        newsListAdapter = new NewsListAdapter(this);
+        recyclerView.setAdapter(newsListAdapter);
 
-        newsAdapter.setOnItemClickListener((news, position) -> {
+        newsListAdapter.setOnItemClickListener((news, position) -> {
             NavigationUtils.navigateWith(this, NewsDetailActivity.class, intent -> {
                 intent.putExtra("news_id", news.getNewsId());
                 intent.putExtra("news_title", news.getTitle());
@@ -118,7 +118,7 @@ public class SearchActivity extends AppCompatActivity {
                 BaseResponse body = response.body();
                 if (body != null && body.getCode() == 0) {
                     List<News> newsList = GsonUtil.parseList(body.getData(), News.class);
-                    newsAdapter.setNewsList(newsList);
+                    newsListAdapter.setNewsList(newsList);
                 } else {
                     Toast.makeText(SearchActivity.this,
                             "搜索失败", Toast.LENGTH_SHORT).show();

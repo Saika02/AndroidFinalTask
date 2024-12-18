@@ -12,7 +12,7 @@ import com.example.lzz_finaltask.R;
 import com.example.lzz_finaltask.model.News;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
-import com.example.lzz_finaltask.ui.adapter.NewsAdapter;
+import com.example.lzz_finaltask.ui.adapter.NewsListAdapter;
 import com.example.lzz_finaltask.utils.GsonUtil;
 import com.example.lzz_finaltask.utils.NavigationUtils;
 import com.example.lzz_finaltask.utils.SharedPreferencesUtil;
@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class FavoriteActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private NewsAdapter newsAdapter;
+    private NewsListAdapter newsListAdapter;
     private View emptyView;
 
     @Override
@@ -49,11 +49,12 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        newsAdapter = new NewsAdapter(this);
-        recyclerView.setAdapter(newsAdapter);
+        newsListAdapter = new NewsListAdapter(this);
+        newsListAdapter.setPageType(NewsListAdapter.PAGE_TYPE_FAVORITE);
+        recyclerView.setAdapter(newsListAdapter);
         
         // 设置点击事件
-        newsAdapter.setOnItemClickListener((news, position) -> {
+        newsListAdapter.setOnItemClickListener((news, position) -> {
             NavigationUtils.navigateWith(FavoriteActivity.this,NewsDetailActivity.class,intent -> {
                 intent.putExtra("news_id", news.getNewsId());
                 intent.putExtra("news_title", news.getTitle());
@@ -74,7 +75,7 @@ public class FavoriteActivity extends AppCompatActivity {
                 BaseResponse body = response.body();
                 if (body != null && body.getCode() == 0) {
                     List<News> newsList = GsonUtil.parseList(body.getData(), News.class);
-                    newsAdapter.setNewsList(newsList);
+                    newsListAdapter.setNewsList(newsList);
                     if (newsList.isEmpty()) {
                         showEmptyState();
                     } else {

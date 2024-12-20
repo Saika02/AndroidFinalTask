@@ -111,10 +111,13 @@ public class AddNewsActivity extends AppCompatActivity {
             Toast.makeText(this, "标题和内容不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        else if(TextUtils.isEmpty(type)){
+            Toast.makeText(this,"必须选择一个类型",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         progressBar.setVisibility(View.VISIBLE);
         btnSubmit.setEnabled(false);
-
 
 
         // 创建新闻对象
@@ -142,7 +145,6 @@ public class AddNewsActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);

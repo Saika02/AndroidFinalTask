@@ -22,6 +22,9 @@ import com.example.lzz_finaltask.model.Comment;
 import com.example.lzz_finaltask.model.User;
 import com.example.lzz_finaltask.network.RetrofitManager;
 import com.example.lzz_finaltask.network.response.BaseResponse;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +59,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Comment comment = comments.get(position);
         holder.userName.setText(comment.getUsername());
-        if(currentUser.getRole() == 1){
-            holder.userName.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.primary));
+        // 根据评论用户的角色设置不同颜色
+
+        if(comment.getUserRole() == 1) {  // 1表示管理员
+            holder.userName.setTextColor(ContextCompat.getColor(
+                    holder.itemView.getContext(),
+                    R.color.primary
+            ));
         }
+
         holder.commentTime.setText(comment.getCreateTime());
         holder.commentContent.setText(comment.getContent());
 
@@ -111,30 +120,62 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         builder.show();
     }
 
-    // 显示封禁理由输入对话框
-    private void showBanReasonDialog(Context context, Long userId, String username) {
-        // 使用 null 作为 parent
-        View dialogView = LayoutInflater.from(context)
-                .inflate(R.layout.dialog_ban_reason, null, false);
+//    // 显示封禁理由输入对话框
+//    private void showBanReasonDialog(Context context, Long userId, String username) {
+//        // 使用 null 作为 parent
+//        View dialogView = LayoutInflater.from(context)
+//                .inflate(R.layout.dialog_ban_reason, null, false);
+//
+//        EditText input = dialogView.findViewById(R.id.edit_ban_reason);
+//
+//        // 创建并显示对话框
+//        new AlertDialog.Builder(context)
+//                .setTitle("封禁用户: " + username)
+//                .setView(dialogView)  // 设置自定义视图
+//                .setPositiveButton("确定", (dialog, which) -> {
+//                    String reason = input.getText().toString().trim();
+//                    if (reason.isEmpty()) {
+//                        Toast.makeText(context, "请输入封禁理由", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                    banUser(context, userId, currentUser.getUserId(), reason);
+//                })
+//                .setNegativeButton("取消", null)
+//                .create()
+//                .show();
+//    }
+private void showBanReasonDialog(Context context, Long userId, String username) {
+    // 使用 MaterialAlertDialogBuilder
+    View dialogView = LayoutInflater.from(context)
+            .inflate(R.layout.dialog_ban_reason, null, false);
 
-        EditText input = dialogView.findViewById(R.id.edit_ban_reason);
 
-        // 创建并显示对话框
-        new AlertDialog.Builder(context)
-                .setTitle("封禁用户: " + username)
-                .setView(dialogView)  // 设置自定义视图
-                .setPositiveButton("确定", (dialog, which) -> {
-                    String reason = input.getText().toString().trim();
-                    if (reason.isEmpty()) {
-                        Toast.makeText(context, "请输入封禁理由", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    banUser(context, userId, currentUser.getUserId(), reason);
-                })
-                .setNegativeButton("取消", null)
-                .create()
-                .show();
-    }
+    TextInputLayout textInputLayout = dialogView.findViewById(R.id.text_input_layout);
+    TextInputEditText input = dialogView.findViewById(R.id.edit_ban_reason);
+
+    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+            .setTitle("封禁用户: " + username)
+            .setView(dialogView)
+            .setPositiveButton("确定", null)  // 先设置为null，后面重新设置监听器
+            .setNegativeButton("取消", null);
+
+    // 创建对话框
+    AlertDialog dialog = builder.create();
+
+    // 显示对话框
+    dialog.show();
+
+    // 重新设置确定按钮的点击监听器，以防止输入为空时自动关闭
+    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+        String reason = input.getText().toString().trim();
+        if (reason.isEmpty()) {
+            textInputLayout.setError("请输入封禁理由");
+            return;
+        }
+        banUser(context, userId, currentUser.getUserId(), reason);
+        dialog.dismiss();
+    });
+}
 
     // 修改封禁用户的方法，添加理由参数
     private void banUser(Context context, Long userId, Long adminId, String reason) {

@@ -96,13 +96,11 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
         }
 
 
+        holder.itemView.setOnLongClickListener(v -> {
+            showOperationDialog(v.getContext(), news, position);
+            return true;
+        });
 
-        if (currentUser != null && currentUser.getRole() == 1) {
-            holder.itemView.setOnLongClickListener(v -> {
-                showOperationDialog(v.getContext(), news, position);
-                return true;
-            });
-        }
     }
 
     private void showOperationDialog(Context context, News news, int position) {
@@ -213,7 +211,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
                     BaseResponse body = response.body();
                     // 先检查code，再检查data
                     if (body.getCode() == 0) {
-                        boolean success = Boolean.TRUE.equals(GsonUtil.trans((LinkedTreeMap<String, Object>) body.getData(), Boolean.class));
+                        Boolean success = Boolean.TRUE.equals((Boolean) body.getData());
                         if (success) {
                             // 删除成功
                             newsList.remove(position);

@@ -12,17 +12,19 @@ public class Comment {
     private String avatarUrl; // 用户头像URL
     private String content;   // 评论内容
     private String createTime; // 评论时间
-    private Integer status;
+    private Integer isDeleted;
+    private Integer userRole;
 //    private Integer likeCount; // 点赞数（可选）
 
 
-    public Comment(Long userId, Long newsId, String username, String userAvatar, String content, String createTime) {
+    public Comment(Long userId, Long newsId, String username, String userAvatar, String content, String createTime,Integer userRole) {
         this.newsId = newsId;
         this.userId = userId;
         this.username = username;
         this.avatarUrl = userAvatar;
         this.content = content;
         this.createTime = createTime;
+        this.userRole = userRole;
     }
 
 

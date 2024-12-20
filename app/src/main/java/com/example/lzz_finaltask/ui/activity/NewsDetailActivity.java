@@ -134,7 +134,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 User user = SharedPreferencesUtil.getUser(NewsDetailActivity.this);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 String currentTime = dateFormat.format(new Date());
-                Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), commentContent, currentTime);
+                Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), commentContent, currentTime,user.getRole());
                 sendComment(temp);
 
             } else {
@@ -150,7 +150,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                     User user = SharedPreferencesUtil.getUser(NewsDetailActivity.this);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     String currentTime = dateFormat.format(new Date());
-                    Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), content, currentTime);
+                    Comment temp = new Comment(user.getUserId(), newsId, user.getUsername(), user.getAvatarUrl(), content, currentTime, user.getRole());
                     sendComment(temp);
                     initCommentSection();
                 } else {

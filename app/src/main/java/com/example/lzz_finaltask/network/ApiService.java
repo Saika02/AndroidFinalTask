@@ -18,6 +18,10 @@ import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiService {
+
+    @GET("user/getUserById")
+    Call<BaseResponse> getUserById(@Query("userId") Long userId);
+
     @POST("user/login")
     Call<BaseResponse> userLogin(@Body UserLoginRequest userLoginRequest);
 
